@@ -1,0 +1,16 @@
+fun convertCurrency(amount: Double, exchangeRate: Double): Double {
+    if (amount < 0.0 || exchangeRate <= 0.0) {
+        throw IllegalArgumentException("Amount and exchange rate must be positive values.")
+    }
+
+    return amount * exchangeRate
+}
+
+fun main() {
+    val amountInUSD = 100.0
+    val exchangeRateUSDToEUR = 0.85
+
+    val amountInEUR = convertCurrency(amountInUSD, exchangeRateUSDToEUR)
+
+    println("$amountInUSD USD is equivalent to $amountInEUR EUR")
+}
