@@ -1,0 +1,44 @@
+fun convertTemperature(
+    value: Double,
+    fromUnit: TemperatureUnit,
+    toUnit: TemperatureUnit
+): Double {
+    if (value < -273.15 && (fromUnit == TemperatureUnit.CELSIUS || fromUnit == TemperatureUnit.KELVIN)) {
+        throw IllegalArgumentException("Temperature cannot be below absolute zero.")
+    } else if (value < -459.67 && fromUnit == TemperatureUnit.FAHRENHEIT) {
+        throw IllegalArgumentException("Temperature cannot be below absolute zero.")
+    }
+
+    return when (fromUnit) {
+        TemperatureUnit.CELSIUS -> when (toUnit) {
+            TemperatureUnit.FAHRENHEIT -> (value * 9 / 5) + 32
+            TemperatureUnit.KELVIN -> value + 273.15
+            else -> value
+        }
+        TemperatureUnit.FAHRENHEIT -> when (toUnit) {
+            TemperatureUnit.CELSIUS -> (value - 32) * 5 / 9
+            TemperatureUnit.KELVIN -> (value + 459.67) * 5 / 9
+            else -> value
+        }
+        TemperatureUnit.KELVIN -> when (toUnit) {
+            TemperatureUnit.CELSIUS -> value - 273.15
+            TemperatureUnit.FAHRENHEIT -> (value * 9 / 5) - 459.67
+            else -> value
+        }
+    }
+}
+
+enum class TemperatureUnit {
+    CELSIUS,
+    FAHRENHEIT,
+    KELVIN
+}
+
+fun main() {
+    val temperatureInCelsius = 25.0
+    val convertedToKelvin = convertTemperature(temperatureInCelsius, TemperatureUnit.CELSIUS, TemperatureUnit.KELVIN)
+    val convertedToFahrenheit = convertTemperature(temperatureInCelsius, TemperatureUnit.CELSIUS, TemperatureUnit.FAHRENHEIT)
+
+    println("$temperatureInCelsius Celsius is equivalent to $convertedToKelvin Kelvin")
+    println("$temperatureInCelsius Celsius is equivalent to $convertedToFahrenheit Fahrenheit")
+}
